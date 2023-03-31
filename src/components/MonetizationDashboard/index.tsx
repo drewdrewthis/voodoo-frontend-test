@@ -1,73 +1,125 @@
 import { useMonetizationQuery } from "@/lib/hooks/useMonetizationQuery";
 import { withController } from "@/lib/withController";
-import { useState } from "react";
-import {
-  DataGridPremium,
-  GridToolbar,
-  useGridApiRef,
-} from "@mui/x-data-grid-premium";
-import omit from "lodash/fp/omit";
-import { dateRoundedToDayISO } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import TabedContainer from "../TabbedContainer";
 import FullMonetizationHistoryPanel from "./FullMonetizationHistoryPanel";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Typography } from "@mui/material";
-import { Monetization } from "../../types";
 import GamesPanel from "./GamesPanel";
+import SingleInputDateRangePicker from "../SingleInputDateRangePicker";
+import sub from "date-fns/sub";
+import formatISO from "date-fns/formatISO";
 
 function useController() {
   const today = new Date();
-  const oneMonthAgo = new Date(today.setMonth(today.getMonth() - 1));
-  const [startDate, setStartDate] = useState(oneMonthAgo);
-  const [endDate, setEndDate] = useState(today);
-
-  const query = useMonetizationQuery({
-    start: dateRoundedToDayISO(startDate),
-    end: dateRoundedToDayISO(endDate),
+  const oneMonthAgo = sub(today, {
+    days: 1,
   });
 
-  const totalRevenue = query.data?.monetizations.reduce((acc, cur) => {
+  const start = formatISO(oneMonthAgo, { representation: "date" });
+  const end = formatISO(today, { representation: "date" });
+  const { data, refetch, ...rest } = useMonetizationQuery({ start, end });
+  const [startDate, setStartDate] = useState<Date | null>(oneMonthAgo);
+  const [endDate, setEndDate] = useState<Date | null>(today);
+
+  const totalRevenue = data?.monetizations.reduce((acc, cur) => {
     return acc + cur.revenue;
   }, 0);
 
+  const handleDateChange = (dates: {
+    startDate: Date | null;
+    endDate: Date | null;
+  }) => {
+    const { startDate, endDate } = dates;
+
+    if (startDate && endDate) {
+      setStartDate(startDate);
+      setEndDate(endDate);
+    }
+  };
+
+  useEffect(() => {
+    refetch({
+      start: formatISO(startDate, { representation: "date" }),
+      end: formatISO(endDate, { representation: "date" }),
+    }).then(console.log);
+  }, [startDate, endDate, refetch]);
+
   return {
-    ...query,
+    data: data,
+    loading: rest.loading,
+    error: rest.error,
     totalRevenue,
-    setStartDate,
-    setEndDate,
+    handleDateChange,
+    startDate,
+    endDate,
+    // setStartDate,
+    // setEndDate,
   };
 }
 
 function MonetizationDashboard(props: ReturnType<typeof useController>) {
-  const { data, error, variables, loading, totalRevenue } = props;
+  const {
+    data,
+    error,
+    startDate,
+    endDate,
+    loading,
+    totalRevenue,
+    handleDateChange,
+  } = props;
 
   if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
-  const { monetizations } = data;
+  // if (!data) return <div>loading...</div>;
 
   return (
     <div className="h-full container">
-      <Typography component="h1" variant="h2">
-        Monetization Dashboard
-      </Typography>
-      <div>Total revenue for time period: {totalRevenue}</div>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker label="Basic date picker" />
-        <DatePicker label="Basic date picker" />
-      </LocalizationProvider>
+      <div className="flex justify-between">
+        <Typography component="h1" variant="h2">
+          Monetization Dashboard
+        </Typography>
+        <div>
+          <div className="align-end">
+            <SingleInputDateRangePicker
+              startDate={startDate}
+              endDate={endDate}
+              onDatesChange={handleDateChange}
+            />
+          </div>
+          {totalRevenue && (
+            <div>
+              Total revenue for time period:
+              <Typography
+                component="h1"
+                variant="h4"
+                color="GrayText"
+                align="right"
+              >
+                {totalRevenue.toFixed(2)}
+              </Typography>
+            </div>
+          )}
+        </div>
+      </div>
+
       <div className="h-full border rounded w-full">
         <TabedContainer
           panels={[
             {
               label: "Revenue Focus",
-              content: <GamesPanel data={data} loading={loading} />,
+              content: (
+                <GamesPanel
+                  data={data?.monetizations || []}
+                  loading={loading}
+                />
+              ),
             },
             {
               label: "Full Monetization History",
               content: (
-                <FullMonetizationHistoryPanel data={data} loading={loading} />
+                <FullMonetizationHistoryPanel
+                  data={data?.monetizations || []}
+                  loading={loading}
+                />
               ),
             },
           ]}

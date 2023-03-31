@@ -11,14 +11,12 @@ import { sentenceCase } from "@/lib/utils";
 import { createGamesPanelData } from "./utils";
 
 interface Props {
-  data: {
-    monetizations: Monetization[];
-  };
+  data: Monetization[];
   loading: boolean;
 }
 function useController(props: Props) {
   const apiRef = useGridApiRef();
-  const { monetizations } = props.data;
+  const monetizations = props.data;
   const panelData = createGamesPanelData(monetizations);
   const columns = Object.keys(omit(["__typename"], panelData[0])).map(
     (key) => ({

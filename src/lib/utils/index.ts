@@ -1,11 +1,5 @@
 import { Monetization } from "../../types";
 
-export function dateRoundedToDayISO(date: Date) {
-  const roundedDate = new Date(date);
-  roundedDate.setHours(0, 0, 0, 0);
-  return roundedDate.toISOString();
-}
-
 export function groupDataByGame(data: Monetization[]) {
   return data.reduce((acc, item) => {
     const game = item.game;

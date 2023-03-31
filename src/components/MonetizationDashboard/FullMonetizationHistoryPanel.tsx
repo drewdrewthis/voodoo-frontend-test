@@ -8,9 +8,7 @@ import omit from "lodash/fp/omit";
 import { Monetization } from "../../types";
 
 interface Props {
-  data: {
-    monetizations: Monetization[];
-  };
+  data: Monetization[];
   loading: boolean;
 }
 function useController(props: Props) {
@@ -22,7 +20,7 @@ function useController(props: Props) {
 function FullMonetizationHistoryPanel(props: ReturnType<typeof useController>) {
   const apiRef = useGridApiRef();
   const { data, loading } = props;
-  const { monetizations } = data;
+  const monetizations = data;
 
   const columns = Object.keys(omit(["__typename"], monetizations[0])).map(
     (key) => ({

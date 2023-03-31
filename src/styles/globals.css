@@ -111,6 +111,7 @@ a {
 }
 
 /** MUI overrides */
-.MuiDataGrid-main > div:nth-last-child(2) {
+.MuiDataGrid-main > div:nth-last-child(2),
+.MuiDateRangeCalendar-root > div:nth-child(1) {
   display: none;
 }

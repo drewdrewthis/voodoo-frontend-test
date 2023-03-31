@@ -26,9 +26,11 @@ export default function TabedContainer(props: Props) {
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
-          classes={{
-            flexContainer: "w-full justify-end",
-          }}
+          classes={
+            {
+              // flexContainer: "w-full justify-end",
+            }
+          }
         >
           {panels.map((panel, index) => (
             <Tab label={panel.label} {...a11yProps(index)} key={index} />
