@@ -77,7 +77,7 @@ function MonetizationDashboard(props: ReturnType<typeof useController>) {
           Monetization Dashboard
         </Typography>
         <div>
-          <div className="align-end">
+          <div className="align-end mb-10">
             <SingleInputDateRangePicker
               startDate={startDate}
               endDate={endDate}
@@ -86,44 +86,46 @@ function MonetizationDashboard(props: ReturnType<typeof useController>) {
           </div>
           {totalRevenue && (
             <div>
-              Total revenue for time period:
               <Typography
                 component="h1"
                 variant="h4"
                 color="GrayText"
                 align="right"
               >
-                {totalRevenue.toFixed(2)}
+                Total: {totalRevenue.toFixed(2)}
               </Typography>
             </div>
           )}
         </div>
       </div>
 
-      <div className="h-full border rounded w-full">
-        <TabedContainer
-          panels={[
-            {
-              label: "Revenue Focus",
-              content: (
-                <GamesPanel
-                  data={data?.monetizations || []}
-                  loading={loading}
-                />
-              ),
-            },
-            {
-              label: "Full Monetization History",
-              content: (
-                <FullMonetizationHistoryPanel
-                  data={data?.monetizations || []}
-                  loading={loading}
-                />
-              ),
-            },
-          ]}
-        />
+      <div className="h-full pb-10 mb-20">
+        <div className="h-full border rounded w-full mb-10">
+          <TabedContainer
+            panels={[
+              {
+                label: "Revenue Focus",
+                content: (
+                  <GamesPanel
+                    data={data?.monetizations || []}
+                    loading={loading}
+                  />
+                ),
+              },
+              {
+                label: "Full Monetization History",
+                content: (
+                  <FullMonetizationHistoryPanel
+                    data={data?.monetizations || []}
+                    loading={loading}
+                  />
+                ),
+              },
+            ]}
+          />
+        </div>
       </div>
+      <footer className="flex justify-center p-10 text-center"></footer>
     </div>
   );
 }

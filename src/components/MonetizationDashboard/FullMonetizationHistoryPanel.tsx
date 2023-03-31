@@ -44,6 +44,8 @@ function FullMonetizationHistoryPanel(props: ReturnType<typeof useController>) {
       pagination
       aggregationModel={{
         revenue: "sum",
+        views: "sum",
+        conversions: "sum",
       }}
       initialState={{
         aggregation: {

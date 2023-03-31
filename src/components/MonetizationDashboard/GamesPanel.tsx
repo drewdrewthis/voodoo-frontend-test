@@ -28,11 +28,6 @@ function useController(props: Props) {
 
   const initialState = useKeepGroupedColumnsHidden({
     apiRef,
-    initialState: {
-      rowGrouping: {
-        model: ["conversions", "revenue", "views"],
-      },
-    },
   });
 
   return {
@@ -49,7 +44,7 @@ function GamesPanel(props: ReturnType<typeof useController>) {
 
   return (
     <DataGridPremium
-      className="w-full"
+      className="w-full mb-auto"
       rows={rows}
       columns={columns}
       apiRef={apiRef}
@@ -57,19 +52,7 @@ function GamesPanel(props: ReturnType<typeof useController>) {
       disableRowSelectionOnClick
       getRowId={(row) => row.game}
       slots={{ toolbar: GridToolbar }}
-      autoPageSize
-      pagination
-      aggregationModel={{
-        revenue: "sum",
-      }}
-      initialState={initialState}
-      // initialState={{
-      //   aggregation: {
-      //     model: {
-      //       revenue: "sum",
-      //     },
-      //   },
-      // }}
+      autoHeight
     />
   );
 }
