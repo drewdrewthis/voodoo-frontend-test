@@ -22,7 +22,8 @@ export default function SingleInputDateRangePicker(props: Props) {
     <div className="flex flex-col items-end">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DateRangePicker
-          className={cx("bg-slate-100 rounded border", styles.container)}
+          label="Select date range"
+          className={cx("rounded border", styles.container)}
           slots={{ field: SingleInputDateRangeField }}
           value={[dayjs(startDate), dayjs(endDate)]}
           onChange={(data: any) => {
