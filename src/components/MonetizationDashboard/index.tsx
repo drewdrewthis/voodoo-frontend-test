@@ -1,4 +1,7 @@
-import { useMonetizationQuery } from "@/lib/hooks/useMonetizationQuery";
+import {
+  formatDateForQuery,
+  useMonetizationQuery,
+} from "@/lib/hooks/useMonetizationQuery";
 import { withController } from "@/lib/withController";
 import { useEffect, useState } from "react";
 import TabedContainer from "../TabbedContainer";
@@ -7,7 +10,6 @@ import { Typography } from "@mui/material";
 import GamesPanel from "./GamesPanel";
 import SingleInputDateRangePicker from "../SingleInputDateRangePicker";
 import sub from "date-fns/sub";
-import formatISO from "date-fns/formatISO";
 
 function useController() {
   const today = new Date();
@@ -15,8 +17,8 @@ function useController() {
     days: 1,
   });
 
-  const start = formatISO(oneMonthAgo, { representation: "date" });
-  const end = formatISO(today, { representation: "date" });
+  const start = formatDateForQuery(oneMonthAgo);
+  const end = formatDateForQuery(today);
   const { data, refetch, ...rest } = useMonetizationQuery({ start, end });
   const [startDate, setStartDate] = useState<Date | null>(oneMonthAgo);
   const [endDate, setEndDate] = useState<Date | null>(today);
@@ -39,8 +41,8 @@ function useController() {
 
   useEffect(() => {
     refetch({
-      start: formatISO(startDate, { representation: "date" }),
-      end: formatISO(endDate, { representation: "date" }),
+      start: formatDateForQuery(startDate),
+      end: formatDateForQuery(endDate),
     }).then(console.log);
   }, [startDate, endDate, refetch]);
 
@@ -52,8 +54,6 @@ function useController() {
     handleDateChange,
     startDate,
     endDate,
-    // setStartDate,
-    // setEndDate,
   };
 }
 
@@ -69,7 +69,6 @@ function MonetizationDashboard(props: ReturnType<typeof useController>) {
   } = props;
 
   if (error) return <div>failed to load</div>;
-  // if (!data) return <div>loading...</div>;
 
   return (
     <div className="h-full container">

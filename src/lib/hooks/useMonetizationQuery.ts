@@ -1,6 +1,10 @@
 import { useQuery, gql } from "@apollo/client";
 import { Monetization } from "../../types";
+import formatISO from "date-fns/formatISO";
 
+export function formatDateForQuery(date: Date | string) {
+  return formatISO(new Date(date), { representation: "date" });
+}
 
 const MONETIZATION_QUERY = gql`
   query Query($start: DateTime!, $end: DateTime!) {
@@ -27,8 +31,6 @@ export const useMonetizationQuery = (args: {
   const { start, end } = args;
 
   return useQuery<{ monetizations: Monetization[] }>(MONETIZATION_QUERY, {
-    fetchPolicy: "network-only",
-    nextFetchPolicy: "network-only",
     variables: {
       start,
       end,
