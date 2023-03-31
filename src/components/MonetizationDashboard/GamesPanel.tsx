@@ -21,17 +21,24 @@ function useController(props: Props) {
   const { data, focus = "revenue" } = props;
   const monetizations = data;
   const panelData = createGamesPanelData(monetizations, { focus });
-  const columns = Object.keys(omit(["__typename"], panelData[0])).map(
-    (key) => ({
-      field: key,
-      headerName: sentenceCase(key),
-      flex: 1,
-    })
-  );
+  const columnKeys = Object.keys(omit(["__typename"], panelData[0]));
+  const columns = columnKeys.map((key) => ({
+    field: key,
+    headerName: sentenceCase(key),
+    type: key === "game" ? "string" : "number",
+    flex: 1,
+  }));
 
-  const initialState = useKeepGroupedColumnsHidden({
+  const initialState = {
     apiRef,
-  });
+    aggregation: {
+      model: columnKeys.reduce((acc, key) => {
+        if (key === "game") return acc;
+        acc[key] = "sum";
+        return acc;
+      }, {}),
+    },
+  } as any;
 
   return {
     rows: panelData,
@@ -45,9 +52,11 @@ function useController(props: Props) {
 function GamesPanel(props: ReturnType<typeof useController>) {
   const { rows, columns, loading, apiRef, initialState } = props;
 
+  console.log(rows[0]);
+
   return (
     <DataGridPremium
-      className="w-full mb-auto color-white"
+      className="w-full mb-auto color-white border rounded dark:bg-slate-900"
       rows={rows}
       columns={columns}
       apiRef={apiRef}
@@ -56,20 +65,9 @@ function GamesPanel(props: ReturnType<typeof useController>) {
       getRowId={(row) => row.game}
       slots={{
         toolbar: GridToolbar,
-        // cell: (data) => {
-        //   console.log("cell", data);
-        //   return (
-        //     <div
-        //       className="text-white"
-        //       style={{
-        //         ...data,
-        //       }}
-        //     >
-        //       {data.value}
-        //     </div>
-        //   );
-        // },
       }}
+      aggregationRowsScope="all"
+      initialState={initialState}
       autoHeight
     />
   );

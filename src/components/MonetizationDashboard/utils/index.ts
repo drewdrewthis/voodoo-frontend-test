@@ -19,7 +19,7 @@ export function createGamesPanelData(
     const onlyRevenue = Object.entries(withTotals).reduce(
       (acc, [country, totals]) => {
         const focusData = totals[focus].toFixed(2);
-        acc[country] = focusData;
+        acc[country] = Number(focusData);
         return acc;
       },
       {} as any

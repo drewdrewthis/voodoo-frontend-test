@@ -5,34 +5,51 @@ import {
   useGridApiRef,
 } from "@mui/x-data-grid-premium";
 import omit from "lodash/fp/omit";
-import { Monetization } from "../../types";
+import { Monetization } from "@/types";
+import { sentenceCase } from "@/lib/utils";
 
 interface Props {
   data: Monetization[];
   loading: boolean;
 }
 function useController(props: Props) {
+  const { data } = props;
+  const apiRef = useGridApiRef();
+  const columnKeys = Object.keys(omit(["__typename"], data[0]));
+  const columns = columnKeys.map((key) => {
+    return {
+      field: key,
+      headerName: sentenceCase(key),
+      type: Number.isNaN(Number(data[0][key])) ? "string" : "number",
+      flex: 1,
+    };
+  });
+
+  const initialState = {
+    apiRef,
+    aggregation: {
+      model: columnKeys.reduce((acc, key) => {
+        if (key === "game") return acc;
+        acc[key] = "sum";
+        return acc;
+      }, {}),
+    },
+  } as any;
   return {
+    apiRef,
+    initialState,
+    columns,
     ...props,
   };
 }
 
 function FullMonetizationHistoryPanel(props: ReturnType<typeof useController>) {
-  const apiRef = useGridApiRef();
-  const { data, loading } = props;
+  const { data, loading, columns, apiRef } = props;
   const monetizations = data;
-
-  const columns = Object.keys(omit(["__typename"], monetizations[0])).map(
-    (key) => ({
-      field: key,
-      headerName: key,
-      flex: 1,
-    })
-  );
 
   return (
     <DataGridPremium
-      className="w-full h-full"
+      className="w-full mb-auto color-white border rounded dark:bg-slate-900"
       rows={monetizations}
       columns={columns}
       apiRef={apiRef}
@@ -40,7 +57,6 @@ function FullMonetizationHistoryPanel(props: ReturnType<typeof useController>) {
       disableRowSelectionOnClick
       getRowId={(row) => row.placement}
       slots={{ toolbar: GridToolbar }}
-      autoPageSize
       pagination
       aggregationModel={{
         revenue: "sum",

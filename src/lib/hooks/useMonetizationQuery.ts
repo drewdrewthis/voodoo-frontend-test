@@ -9,15 +9,15 @@ export function formatDateForQuery(date: Date | string) {
 const MONETIZATION_QUERY = gql`
   query Query($start: DateTime!, $end: DateTime!) {
     monetizations(start: $start, end: $end) {
+      date
       game
       country
-      conversions
-      date
-      format
       os
+      format
       placement
-      revenue
       views
+      conversions
+      revenue
     }
   }
 `;

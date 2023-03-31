@@ -93,7 +93,7 @@ function MonetizationDashboard(props: ReturnType<typeof useController>) {
       </div>
 
       <div className="h-full pb-10 mb-20">
-        <div className="h-full border rounded w-full mb-10 dark:bg-slate-900">
+        <div className="h-full w-full mb-10">
           <TabedContainer
             value={tabValue}
             onTabChange={handleTabChange}
@@ -142,7 +142,7 @@ function MonetizationDashboard(props: ReturnType<typeof useController>) {
         </div>
       </div>
       <footer className="flex flex-1 justify-center text-center">
-        {totalRevenue && (
+        {/* {totalRevenue && (
           <div>
             <Typography
               component="h1"
@@ -153,7 +153,7 @@ function MonetizationDashboard(props: ReturnType<typeof useController>) {
               Total: {totalRevenue.toFixed(2)}
             </Typography>
           </div>
-        )}
+        )} */}
       </footer>
     </div>
   );
