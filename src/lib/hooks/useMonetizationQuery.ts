@@ -3,11 +3,11 @@ import { useQuery, gql } from "@apollo/client";
 const MONETIZATION_QUERY = gql`
   query Query($start: DateTime!, $end: DateTime!) {
     monetizations(start: $start, end: $end) {
-      conversions
+      game
       country
+      conversions
       date
       format
-      game
       os
       placement
       revenue
