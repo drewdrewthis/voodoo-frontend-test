@@ -32,7 +32,7 @@ function FullMonetizationHistoryPanel(props: ReturnType<typeof useController>) {
 
   return (
     <DataGridPremium
-      className="w-full"
+      className="w-full h-full"
       rows={monetizations}
       columns={columns}
       apiRef={apiRef}

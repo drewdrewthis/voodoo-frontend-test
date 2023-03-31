@@ -19,8 +19,8 @@ export default function SingleInputDateRangePicker(props: Props) {
   const { startDate, endDate, onDatesChange } = props;
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className="flex flex-col items-end">
+    <div className="flex flex-col items-end">
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DateRangePicker
           className={cx("bg-slate-100 rounded border", styles.container)}
           slots={{ field: SingleInputDateRangeField }}
@@ -32,7 +32,7 @@ export default function SingleInputDateRangePicker(props: Props) {
             });
           }}
         />
-      </div>
-    </LocalizationProvider>
+      </LocalizationProvider>
+    </div>
   );
 }

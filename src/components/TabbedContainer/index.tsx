@@ -1,7 +1,6 @@
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
 import TabPanel from "./TabPanel";
 
 interface Props {
@@ -9,40 +8,35 @@ interface Props {
     label: string;
     content: React.ReactNode;
   }[];
+  value?: number;
+  onTabChange: (newValue: number) => void;
 }
 
 export default function TabedContainer(props: Props) {
-  const { panels } = props;
-  const [value, setValue] = React.useState(0);
+  const { panels, value, onTabChange } = props;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+    onTabChange(newValue);
   };
 
   return (
-    <Box sx={{ width: "100%", height: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-          classes={
-            {
-              // flexContainer: "w-full justify-end",
-            }
-          }
-        >
-          {panels.map((panel, index) => (
-            <Tab label={panel.label} {...a11yProps(index)} key={index} />
-          ))}
-        </Tabs>
-      </Box>
+    <div className="h-full">
+      <Tabs
+        className="mb-5"
+        value={value}
+        onChange={handleChange}
+        aria-label="basic tabs example"
+      >
+        {panels.map((panel, index) => (
+          <Tab label={panel.label} {...a11yProps(index)} key={index} />
+        ))}
+      </Tabs>
       {panels.map((panel, index) => (
         <TabPanel value={value} index={index} key={index}>
           {panel.content}
         </TabPanel>
       ))}
-    </Box>
+    </div>
   );
 }
 

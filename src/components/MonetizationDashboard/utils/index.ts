@@ -4,10 +4,11 @@ import {
   groupTotalsByCountry,
 } from "@/lib/utils";
 import { Monetization } from "../../../types";
+import { Focus } from "../types";
 
 export function createGamesPanelData(
   monetizations: Monetization[],
-  options?: { focus: "revenue" }
+  options?: { focus: Focus }
 ) {
   const { focus = "revenue" } = options || {};
   const groupedData = groupDataByGame(monetizations);

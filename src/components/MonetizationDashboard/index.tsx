@@ -22,6 +22,7 @@ function useController() {
   const { data, refetch, ...rest } = useMonetizationQuery({ start, end });
   const [startDate, setStartDate] = useState<Date | null>(oneMonthAgo);
   const [endDate, setEndDate] = useState<Date | null>(today);
+  const [tabValue, setTabValue] = useState(0);
 
   const totalRevenue = data?.monetizations.reduce((acc, cur) => {
     return acc + cur.revenue;
@@ -39,6 +40,10 @@ function useController() {
     }
   };
 
+  const handleTabChange = (newValue: number) => {
+    setTabValue(newValue);
+  };
+
   useEffect(() => {
     refetch({
       start: formatDateForQuery(startDate),
@@ -52,6 +57,8 @@ function useController() {
     error: rest.error,
     totalRevenue,
     handleDateChange,
+    handleTabChange,
+    tabValue,
     startDate,
     endDate,
   };
@@ -65,53 +72,32 @@ function MonetizationDashboard(props: ReturnType<typeof useController>) {
     endDate,
     loading,
     totalRevenue,
+    tabValue,
     handleDateChange,
+    handleTabChange,
   } = props;
 
   if (error) return <div>failed to load</div>;
 
   return (
-    <div className="h-full container">
-      <div className="flex justify-between">
+    <div className="h-full container flex flex-col">
+      <div className="flex justify-between items-center mb-5">
         <Typography component="h1" variant="h2">
           Monetization Dashboard
         </Typography>
-        <div>
-          <div className="align-end mb-10">
-            <SingleInputDateRangePicker
-              startDate={startDate}
-              endDate={endDate}
-              onDatesChange={handleDateChange}
-            />
-          </div>
-          {totalRevenue && (
-            <div>
-              <Typography
-                component="h1"
-                variant="h4"
-                color="GrayText"
-                align="right"
-              >
-                Total: {totalRevenue.toFixed(2)}
-              </Typography>
-            </div>
-          )}
-        </div>
+        <SingleInputDateRangePicker
+          startDate={startDate}
+          endDate={endDate}
+          onDatesChange={handleDateChange}
+        />
       </div>
 
       <div className="h-full pb-10 mb-20">
         <div className="h-full border rounded w-full mb-10">
           <TabedContainer
+            value={tabValue}
+            onTabChange={handleTabChange}
             panels={[
-              {
-                label: "Revenue Focus",
-                content: (
-                  <GamesPanel
-                    data={data?.monetizations || []}
-                    loading={loading}
-                  />
-                ),
-              },
               {
                 label: "Full Monetization History",
                 content: (
@@ -121,11 +107,54 @@ function MonetizationDashboard(props: ReturnType<typeof useController>) {
                   />
                 ),
               },
+              {
+                label: "Revenue",
+                content: (
+                  <GamesPanel
+                    data={data?.monetizations || []}
+                    loading={loading}
+                    focus="revenue"
+                  />
+                ),
+              },
+              {
+                label: "Views",
+                content: (
+                  <GamesPanel
+                    data={data?.monetizations || []}
+                    loading={loading}
+                    focus="views"
+                  />
+                ),
+              },
+              {
+                label: "Conversions",
+                content: (
+                  <GamesPanel
+                    data={data?.monetizations || []}
+                    loading={loading}
+                    focus="conversions"
+                  />
+                ),
+              },
             ]}
           />
         </div>
       </div>
-      <footer className="flex justify-center p-10 text-center"></footer>
+      <footer className="flex flex-1 justify-center text-center">
+        {totalRevenue && (
+          <div>
+            <Typography
+              component="h1"
+              variant="h4"
+              color="GrayText"
+              align="right"
+            >
+              Total: {totalRevenue.toFixed(2)}
+            </Typography>
+          </div>
+        )}
+      </footer>
     </div>
   );
 }

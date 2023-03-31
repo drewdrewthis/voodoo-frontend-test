@@ -9,15 +9,18 @@ import omit from "lodash/fp/omit";
 import { Monetization } from "@/types";
 import { sentenceCase } from "@/lib/utils";
 import { createGamesPanelData } from "./utils";
+import { Focus } from "./types";
 
 interface Props {
   data: Monetization[];
   loading: boolean;
+  focus?: Focus;
 }
 function useController(props: Props) {
   const apiRef = useGridApiRef();
-  const monetizations = props.data;
-  const panelData = createGamesPanelData(monetizations);
+  const { data, focus = "revenue" } = props;
+  const monetizations = data;
+  const panelData = createGamesPanelData(monetizations, { focus });
   const columns = Object.keys(omit(["__typename"], panelData[0])).map(
     (key) => ({
       field: key,
