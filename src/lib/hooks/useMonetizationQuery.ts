@@ -1,4 +1,5 @@
 import { useQuery, gql } from "@apollo/client";
+import { Monetization } from "../../types";
 
 const MONETIZATION_QUERY = gql`
   query Query($start: DateTime!, $end: DateTime!) {
@@ -19,7 +20,7 @@ const MONETIZATION_QUERY = gql`
 export const useMonetizationQuery = (args: { start: string; end: string }) => {
   const { start, end } = args;
 
-  return useQuery(MONETIZATION_QUERY, {
+  return useQuery<{ monetizations: Monetization[] }>(MONETIZATION_QUERY, {
     variables: {
       start,
       end,
