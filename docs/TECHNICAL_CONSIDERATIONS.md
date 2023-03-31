@@ -1,0 +1,9 @@
+- Apollo LocalStorage caching
+- Use of MUI DataGrid
+  - Pros:
+    - Faster prototyping
+    - Great out of box features
+  - Cons:
+    - Nested rows API would not work out of the box/API too difficult
+    - Could not update header/footer as desired
+    - Some features are paid/need license for use in production

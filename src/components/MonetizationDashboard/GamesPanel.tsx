@@ -47,14 +47,29 @@ function GamesPanel(props: ReturnType<typeof useController>) {
 
   return (
     <DataGridPremium
-      className="w-full mb-auto"
+      className="w-full mb-auto color-white"
       rows={rows}
       columns={columns}
       apiRef={apiRef}
       loading={loading}
       disableRowSelectionOnClick
       getRowId={(row) => row.game}
-      slots={{ toolbar: GridToolbar }}
+      slots={{
+        toolbar: GridToolbar,
+        // cell: (data) => {
+        //   console.log("cell", data);
+        //   return (
+        //     <div
+        //       className="text-white"
+        //       style={{
+        //         ...data,
+        //       }}
+        //     >
+        //       {data.value}
+        //     </div>
+        //   );
+        // },
+      }}
       autoHeight
     />
   );

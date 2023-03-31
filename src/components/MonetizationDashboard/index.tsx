@@ -93,20 +93,11 @@ function MonetizationDashboard(props: ReturnType<typeof useController>) {
       </div>
 
       <div className="h-full pb-10 mb-20">
-        <div className="h-full border rounded w-full mb-10">
+        <div className="h-full border rounded w-full mb-10 dark:bg-slate-900">
           <TabedContainer
             value={tabValue}
             onTabChange={handleTabChange}
             panels={[
-              {
-                label: "Full Monetization History",
-                content: (
-                  <FullMonetizationHistoryPanel
-                    data={data?.monetizations || []}
-                    loading={loading}
-                  />
-                ),
-              },
               {
                 label: "Revenue",
                 content: (
@@ -134,6 +125,15 @@ function MonetizationDashboard(props: ReturnType<typeof useController>) {
                     data={data?.monetizations || []}
                     loading={loading}
                     focus="conversions"
+                  />
+                ),
+              },
+              {
+                label: "Full Monetization History",
+                content: (
+                  <FullMonetizationHistoryPanel
+                    data={data?.monetizations || []}
+                    loading={loading}
                   />
                 ),
               },
