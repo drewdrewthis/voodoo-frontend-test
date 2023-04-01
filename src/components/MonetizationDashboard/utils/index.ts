@@ -5,6 +5,7 @@ import {
 } from "@/lib/utils";
 import { Monetization } from "../../../types";
 import { Focus } from "../types";
+import isUndefined from "lodash/isUndefined";
 
 export function createGamesPanelData(
   monetizations: Monetization[],
@@ -41,11 +42,26 @@ export function filterDataByFilters(
     os: Record<string, boolean>;
   }
 ) {
-  const { format, os } = filters;
+  const { format: formatFilters, os: osFilters } = filters;
   const filteredData = data.filter((monetization) => {
     const { os: monetizationOs, format: monetizationFormat } = monetization;
-    return os[monetizationOs] && format[monetizationFormat];
+
+    // Check format filter
+    if (shouldIncludeItem(formatFilters[monetizationFormat])) {
+      return false;
+    }
+
+    // Check os filter
+    if (shouldIncludeItem(osFilters[monetizationOs])) {
+      return false;
+    }
+
+    return true;
   });
 
   return filteredData;
+}
+
+function shouldIncludeItem(filterItem: boolean | undefined) {
+  return !isUndefined(filterItem) && !filterItem;
 }

@@ -25,10 +25,6 @@ function MonetizationDashboard(
 
   if (error) return <div>failed to load</div>;
 
-  // For some reason, this is creates a race condition that allows the data to load consistently
-  // This is likely an issue with development mode firing hooks twice. It doesn't happen in production.
-  // console.log(data);
-
   return (
     <div className="h-full container flex flex-col">
       <div className="flex md:flex-row flex-col justify-between items-center mb-10 content-center">
@@ -55,28 +51,20 @@ function MonetizationDashboard(
               {
                 label: "Revenue",
                 content: (
-                  <GamesPanel
-                    data={data?.monetizations || []}
-                    loading={loading}
-                    focus="revenue"
-                  />
+                  <GamesPanel data={data} loading={loading} focus="revenue" />
                 ),
               },
               {
                 label: "Views",
                 content: (
-                  <GamesPanel
-                    data={data?.monetizations || []}
-                    loading={loading}
-                    focus="views"
-                  />
+                  <GamesPanel data={data} loading={loading} focus="views" />
                 ),
               },
               {
                 label: "Conversions",
                 content: (
                   <GamesPanel
-                    data={data?.monetizations || []}
+                    data={data}
                     loading={loading}
                     focus="conversions"
                   />
@@ -85,10 +73,7 @@ function MonetizationDashboard(
               {
                 label: "Full Monetization History",
                 content: (
-                  <FullMonetizationHistoryPanel
-                    data={data?.monetizations || []}
-                    loading={loading}
-                  />
+                  <FullMonetizationHistoryPanel data={data} loading={loading} />
                 ),
               },
             ]}

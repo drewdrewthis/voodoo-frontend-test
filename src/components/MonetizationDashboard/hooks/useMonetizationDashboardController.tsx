@@ -20,8 +20,10 @@ export function useMonetizationDashboardController() {
   const [startDate, setStartDate] = useState<Date | null>(oneMonthAgo);
   const [endDate, setEndDate] = useState<Date | null>(today);
   const { tabValue, handleTabChange } = useTabsController();
+  const { monetizations = [] } = data || {};
+
   const { filters, toggleFilter } = useFiltersController({
-    data: data?.monetizations || [],
+    data: monetizations,
   });
 
   const handleDateChange = (dates: {
@@ -37,16 +39,17 @@ export function useMonetizationDashboardController() {
   };
 
   useEffect(() => {
-    refetch({
-      start: formatDateForQuery(startDate),
-      end: formatDateForQuery(endDate),
-    }).then(console.log);
+    refetch &&
+      refetch({
+        start: formatDateForQuery(startDate),
+        end: formatDateForQuery(endDate),
+      }).then((params) => console.log("refetch", params));
   }, [startDate, endDate, refetch]);
 
-  const filteredData = filterDataByFilters(data?.monetizations || [], filters);
+  const filteredData = filterDataByFilters(monetizations, filters);
 
   return {
-    data: { monetizations: filters ? filteredData : [] },
+    data: filteredData,
     loading: rest.loading,
     error: rest.error,
     handleDateChange,

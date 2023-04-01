@@ -1,12 +1,10 @@
-## Technical choices:
+# Technical choices:
 
-# Technical choices
+## NextJS + Vercel
 
-### NextJS + Vercel
+## Apollo LocalStorage caching
 
-### Apollo LocalStorage caching
-
-### Use of MUI DataGrid
+## Use of MUI DataGrid
 
 - Pros:
   - Faster prototyping
@@ -24,6 +22,16 @@
 [X] Revenue focused data by country
 [X] Light/Dark mode
 [ ] Row details
-[ ] LocalStorage caching for initial load (particulary valuable for development)
 [ ] Highlights for top cells
 [ ] Move GraphQL API call to serverless function layer so as not to expose API key
+
+## Optimizations
+
+[ ] LocalStorage caching for initial load (particulary valuable for development)
+[ ] Allow filters to update GraphQL query. This would only be needed for latentcy issues or database/server constraints.
+
+## TODO
+
+[ ] E2E Tests
+[ ] Component Tests
+[ ] More unit tests
