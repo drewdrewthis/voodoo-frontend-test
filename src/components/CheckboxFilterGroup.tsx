@@ -10,13 +10,15 @@ export default function CheckboxFilterGroup(props: {
   const { label, filters } = props;
   if (!filters) return null;
   return (
-    <div className="mb-2 flex">
+    <div className="mb-2 flex items-center">
       <Typography
         variant="subtitle2"
         className="font-bold text-xs mr-3"
         color="primary"
+        fontWeight={900}
+        component="span"
       >
-        {label.toUpperCase()} {` : `}
+        {`${label.toUpperCase()}:  `}
       </Typography>
       <div className="flex gap-3">
         {Object.keys(filters).map((label) => {

@@ -60,6 +60,9 @@ function GamesPanel(props: ReturnType<typeof useController>) {
       columns={columns}
       apiRef={apiRef}
       loading={loading}
+      classes={{
+        columnHeaderTitle: "color-primary text-gray-600",
+      }}
       disableRowSelectionOnClick
       getRowId={(row) => row.game}
       slots={{
