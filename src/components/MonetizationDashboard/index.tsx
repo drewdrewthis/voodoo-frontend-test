@@ -49,6 +49,12 @@ function MonetizationDashboard(
             onTabChange={handleTabChange}
             panels={[
               {
+                label: "Full Monetization History",
+                content: (
+                  <FullMonetizationHistoryPanel data={data} loading={loading} />
+                ),
+              },
+              {
                 label: "Revenue",
                 content: (
                   <GamesPanel data={data} loading={loading} focus="revenue" />
@@ -68,12 +74,6 @@ function MonetizationDashboard(
                     loading={loading}
                     focus="conversions"
                   />
-                ),
-              },
-              {
-                label: "Full Monetization History",
-                content: (
-                  <FullMonetizationHistoryPanel data={data} loading={loading} />
                 ),
               },
             ]}
