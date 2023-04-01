@@ -81,8 +81,12 @@ function MonetizationDashboard(props: ReturnType<typeof useController>) {
 
   return (
     <div className="h-full container flex flex-col">
-      <div className="flex justify-between items-center mb-5">
-        <Typography component="h1" variant="h2">
+      <div className="flex md:flex-row flex-col justify-between items-center mb-10 content-center">
+        <Typography
+          component="h1"
+          variant="h2"
+          className="text-3xl mb-10 md:mb-0 pt-0 md:text-3xl lg:text-5xl xl:text-6xl"
+        >
           Monetization Dashboard
         </Typography>
         <SingleInputDateRangePicker
