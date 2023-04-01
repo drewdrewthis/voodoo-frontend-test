@@ -1,9 +1,23 @@
-- Apollo LocalStorage caching
-- Use of MUI DataGrid
-  - Pros:
-    - Faster prototyping
-    - Great out of box features
-  - Cons:
-    - Nested rows API would not work out of the box/API too difficult
-    - Could not update header/footer as desired
-    - Some features are paid/need license for use in production
+## Technical choices:
+
+### Apollo LocalStorage caching
+
+### Use of MUI DataGrid
+
+- Pros:
+  - Faster prototyping
+  - Great out of box features
+- Cons:
+  - API not super clear for advanced features (aggregation, nested rows)
+  - Nested rows API would not work out of the box/API too difficult
+  - Could not update header/footer as desired
+  - Some features are paid/need license for use in production
+
+## Features:
+
+[X] Date range selection
+[X] Data display as a table
+[X] Revenue focused data by country
+[ ] Row details
+[ ] LocalStorage caching for initial load (particulary valuable for development)
+[ ] Highlights for top cells
