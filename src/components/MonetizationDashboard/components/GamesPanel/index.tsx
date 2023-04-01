@@ -7,8 +7,8 @@ import {
 import omit from "lodash/fp/omit";
 import { Monetization } from "@/types";
 import { sentenceCase } from "@/lib/utils";
-import { createGamesPanelData } from "../utils";
-import { Focus } from "../types";
+import { createGamesPanelData } from "../../utils";
+import { Focus } from "../../types";
 import { setCellClassName } from "./utils";
 
 interface Props {

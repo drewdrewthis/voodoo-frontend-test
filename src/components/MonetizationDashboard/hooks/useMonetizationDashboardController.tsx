@@ -43,7 +43,7 @@ export function useMonetizationDashboardController() {
       refetch({
         start: formatDateForQuery(startDate),
         end: formatDateForQuery(endDate),
-      }).then((params) => console.log("refetch", params));
+      });
   }, [startDate, endDate, refetch]);
 
   const filteredData = filterDataByFilters(monetizations, filters);

@@ -1,8 +1,8 @@
 import { withController } from "@/lib/withController";
 import TabedContainer from "../TabbedContainer";
-import FullMonetizationHistoryPanel from "./FullMonetizationHistoryPanel";
+import FullMonetizationHistoryPanel from "./components/FullMonetizationHistoryPanel";
 import { Typography } from "@mui/material";
-import GamesPanel from "./GamesPanel";
+import GamesPanel from "./components/GamesPanel";
 import SingleInputDateRangePicker from "../SingleInputDateRangePicker";
 import { useMonetizationDashboardController } from "./hooks";
 import CheckboxFilterGroup from "../CheckboxFilterGroup";

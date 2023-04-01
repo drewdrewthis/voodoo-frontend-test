@@ -31,6 +31,7 @@ export const useMonetizationQuery = (args: {
   const { start, end } = args;
 
   return useQuery<{ monetizations: Monetization[] }>(MONETIZATION_QUERY, {
+    notifyOnNetworkStatusChange: true,
     variables: {
       start,
       end,

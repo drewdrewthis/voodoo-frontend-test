@@ -69,8 +69,6 @@ describe("addTotalsToData", () => {
     const totals = groupTotalsByCountry(groups["Fire Rides"]);
     const results = addTotalsToData(totals);
 
-    console.log(results);
-
     expect(results).toEqual({
       US: { conversions: 189670, revenue: 32250.179999999993, views: 16693168 },
       UK: { conversions: 200109, revenue: 32590.01, views: 16337793 },

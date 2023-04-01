@@ -24,11 +24,14 @@
 [ ] Row details
 [ ] Highlights for top cells
 [ ] Move GraphQL API call to serverless function layer so as not to expose API key
+[ ] Have default periods, ie 24 hours, 7 Days, 1 month, 1 year
 
 ## Optimizations
 
 [ ] LocalStorage caching for initial load (particulary valuable for development)
 [ ] Allow filters to update GraphQL query. This would only be needed for latentcy issues or database/server constraints.
+[ ] Allow for paginated queries for really long periods (large payloads, timeout concerns)
+[ ] Full mobile audit
 
 ## TODO
 

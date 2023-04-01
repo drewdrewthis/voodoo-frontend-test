@@ -36,10 +36,10 @@ function useController(props: Props) {
     },
   } as any;
   return {
+    ...props,
     apiRef,
     initialState,
     columns,
-    ...props,
   };
 }
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Monetization } from "../../../types";
+import { Monetization } from "@/types";
 
 interface Props {
   data: Monetization[];
