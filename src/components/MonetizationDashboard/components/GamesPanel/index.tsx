@@ -21,13 +21,14 @@ function useController(props: Props) {
   const { data, focus = "revenue" } = props;
   const monetizations = data;
   const panelData = createGamesPanelData(monetizations, { focus });
-  const columnKeys = Object.keys(omit(["__typename"], panelData[0]));
-  const columns = columnKeys.map((key) => ({
-    field: key,
-    headerName: sentenceCase(key),
-    type: key === "game" ? "string" : "number",
-    flex: 1,
-  }));
+  const columnKeys = Object.keys(omit(["__typename"], panelData[0])) || [];
+  const columns =
+    columnKeys.map((key) => ({
+      field: key,
+      headerName: sentenceCase(key),
+      type: key === "game" ? "string" : "number",
+      flex: 1,
+    })) || [];
 
   const initialState = {
     apiRef,

@@ -38,3 +38,4 @@
 [ ] E2E Tests
 [ ] Component Tests
 [ ] More unit tests
+[ ] Clean up some layout issues

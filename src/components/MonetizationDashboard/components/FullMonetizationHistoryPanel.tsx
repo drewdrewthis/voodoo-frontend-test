@@ -15,15 +15,16 @@ interface Props {
 function useController(props: Props) {
   const { data } = props;
   const apiRef = useGridApiRef();
-  const columnKeys = Object.keys(omit(["__typename"], data[0]));
-  const columns = columnKeys.map((key) => {
-    return {
-      field: key,
-      headerName: sentenceCase(key),
-      type: Number.isNaN(Number(data[0][key])) ? "string" : "number",
-      flex: 1,
-    };
-  });
+  const columnKeys = Object.keys(omit(["__typename"], data[0])) || [];
+  const columns =
+    columnKeys.map((key) => {
+      return {
+        field: key,
+        headerName: sentenceCase(key),
+        type: Number.isNaN(Number(data[0][key])) ? "string" : "number",
+        flex: 1,
+      };
+    }) || [];
 
   const initialState = {
     apiRef,
