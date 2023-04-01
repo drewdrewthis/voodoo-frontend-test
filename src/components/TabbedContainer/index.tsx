@@ -20,7 +20,7 @@ export default function TabedContainer(props: Props) {
   };
 
   return (
-    <div className="h-full">
+    <div className="h-full flex flex-col">
       <Tabs
         className="mb-5"
         value={value}

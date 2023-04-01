@@ -3,13 +3,13 @@ import {
   DataGridPremium,
   GridToolbar,
   useGridApiRef,
-  useKeepGroupedColumnsHidden,
 } from "@mui/x-data-grid-premium";
 import omit from "lodash/fp/omit";
 import { Monetization } from "@/types";
 import { sentenceCase } from "@/lib/utils";
-import { createGamesPanelData } from "./utils";
-import { Focus } from "./types";
+import { createGamesPanelData } from "../utils";
+import { Focus } from "../types";
+import { setCellClassName } from "./utils";
 
 interface Props {
   data: Monetization[];
@@ -52,8 +52,6 @@ function useController(props: Props) {
 function GamesPanel(props: ReturnType<typeof useController>) {
   const { rows, columns, loading, apiRef, initialState } = props;
 
-  console.log(rows[0]);
-
   return (
     <DataGridPremium
       className="w-full mb-auto color-white border rounded dark:bg-slate-900"
@@ -66,6 +64,7 @@ function GamesPanel(props: ReturnType<typeof useController>) {
       slots={{
         toolbar: GridToolbar,
       }}
+      getCellClassName={setCellClassName}
       aggregationRowsScope="all"
       initialState={initialState}
       autoHeight

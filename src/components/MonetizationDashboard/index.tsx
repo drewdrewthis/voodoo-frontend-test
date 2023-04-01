@@ -4,7 +4,8 @@ import FullMonetizationHistoryPanel from "./FullMonetizationHistoryPanel";
 import { Typography } from "@mui/material";
 import GamesPanel from "./GamesPanel";
 import SingleInputDateRangePicker from "../SingleInputDateRangePicker";
-import { useMonetizationDashboardController } from "./useMonitzationDashboardController";
+import { useMonetizationDashboardController } from "./hooks";
+import CheckboxFilterGroup from "../CheckboxFilterGroup";
 
 function MonetizationDashboard(
   props: ReturnType<typeof useMonetizationDashboardController>
@@ -16,11 +17,17 @@ function MonetizationDashboard(
     endDate,
     loading,
     tabValue,
+    filters,
     handleDateChange,
     handleTabChange,
+    toggleFilter,
   } = props;
 
   if (error) return <div>failed to load</div>;
+
+  // For some reason, this is creates a race condition that allows the data to load consistently
+  // This is likely an issue with development mode firing hooks twice. It doesn't happen in production.
+  // console.log(data);
 
   return (
     <div className="h-full container flex flex-col">
@@ -40,7 +47,7 @@ function MonetizationDashboard(
       </div>
 
       <div className="h-full pb-10 mb-20">
-        <div className="h-full w-full mb-10">
+        <div className="h-full w-full">
           <TabedContainer
             value={tabValue}
             onTabChange={handleTabChange}
@@ -87,21 +94,20 @@ function MonetizationDashboard(
             ]}
           />
         </div>
+        <div className="p-3">
+          <CheckboxFilterGroup
+            label="Format"
+            filters={filters.format}
+            onOptionClick={(value) => toggleFilter("format", value)}
+          />
+          <CheckboxFilterGroup
+            label="OS"
+            filters={filters.os}
+            onOptionClick={(value) => toggleFilter("os", value)}
+          />
+        </div>
       </div>
-      <footer className="flex flex-1 justify-center text-center">
-        {/* {totalRevenue && (
-          <div>
-            <Typography
-              component="h1"
-              variant="h4"
-              color="GrayText"
-              align="right"
-            >
-              Total: {totalRevenue.toFixed(2)}
-            </Typography>
-          </div>
-        )} */}
-      </footer>
+      <footer className="flex flex-1 justify-center text-center"></footer>
     </div>
   );
 }

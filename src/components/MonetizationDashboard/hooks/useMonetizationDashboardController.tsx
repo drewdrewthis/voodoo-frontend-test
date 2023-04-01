@@ -4,6 +4,9 @@ import {
 } from "@/lib/hooks/useMonetizationQuery";
 import { useEffect, useState } from "react";
 import sub from "date-fns/sub";
+import { useTabsController } from "./useTabsController";
+import { useFiltersController } from "./useFiltersController";
+import { filterDataByFilters } from "../utils";
 
 export function useMonetizationDashboardController() {
   const today = new Date();
@@ -16,11 +19,10 @@ export function useMonetizationDashboardController() {
   const { data, refetch, ...rest } = useMonetizationQuery({ start, end });
   const [startDate, setStartDate] = useState<Date | null>(oneMonthAgo);
   const [endDate, setEndDate] = useState<Date | null>(today);
-  const [tabValue, setTabValue] = useState(0);
-
-  const totalRevenue = data?.monetizations.reduce((acc, cur) => {
-    return acc + cur.revenue;
-  }, 0);
+  const { tabValue, handleTabChange } = useTabsController();
+  const { filters, toggleFilter } = useFiltersController({
+    data: data?.monetizations || [],
+  });
 
   const handleDateChange = (dates: {
     startDate: Date | null;
@@ -34,10 +36,6 @@ export function useMonetizationDashboardController() {
     }
   };
 
-  const handleTabChange = (newValue: number) => {
-    setTabValue(newValue);
-  };
-
   useEffect(() => {
     refetch({
       start: formatDateForQuery(startDate),
@@ -45,13 +43,16 @@ export function useMonetizationDashboardController() {
     }).then(console.log);
   }, [startDate, endDate, refetch]);
 
+  const filteredData = filterDataByFilters(data?.monetizations || [], filters);
+
   return {
-    data: data,
+    data: { monetizations: filters ? filteredData : [] },
     loading: rest.loading,
     error: rest.error,
-    totalRevenue,
     handleDateChange,
     handleTabChange,
+    toggleFilter,
+    filters,
     tabValue,
     startDate,
     endDate,

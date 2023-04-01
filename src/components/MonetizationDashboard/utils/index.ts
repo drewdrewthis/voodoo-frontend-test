@@ -33,3 +33,19 @@ export function createGamesPanelData(
 
   return gamesPanelData;
 }
+
+export function filterDataByFilters(
+  data: Monetization[],
+  filters: {
+    format: Record<string, boolean>;
+    os: Record<string, boolean>;
+  }
+) {
+  const { format, os } = filters;
+  const filteredData = data.filter((monetization) => {
+    const { os: monetizationOs, format: monetizationFormat } = monetization;
+    return os[monetizationOs] && format[monetizationFormat];
+  });
+
+  return filteredData;
+}
