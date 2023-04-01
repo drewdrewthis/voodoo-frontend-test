@@ -1,5 +1,9 @@
 ## Technical choices:
 
+# Technical choices
+
+### NextJS + Vercel
+
 ### Apollo LocalStorage caching
 
 ### Use of MUI DataGrid
@@ -18,6 +22,8 @@
 [X] Date range selection
 [X] Data display as a table
 [X] Revenue focused data by country
+[X] Light/Dark mode
 [ ] Row details
 [ ] LocalStorage caching for initial load (particulary valuable for development)
 [ ] Highlights for top cells
+[ ] Move GraphQL API call to serverless function layer so as not to expose API key
