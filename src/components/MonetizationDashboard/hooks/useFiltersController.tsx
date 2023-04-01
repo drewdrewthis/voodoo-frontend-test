@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Monetization } from "../../../types";
 
 interface Props {
   data: Monetization[];
 }
 export function useFiltersController(props: Props) {
+  const { data } = props;
   const extractedFilters = extractFilters(props.data);
   const [filters, setFilters] = useState(extractedFilters);
+
+  useEffect(() => {
+    setFilters(extractFilters(data));
+  }, [data]);
 
   return {
     filters,
@@ -23,7 +28,7 @@ export function useFiltersController(props: Props) {
 }
 
 function extractFilters(data: Monetization[]) {
-  const filters = data.reduce(
+  const filters = [...data].reduce(
     (acc, curr) => {
       acc.format[curr.format] = true;
       acc.os[curr.os] = true;
