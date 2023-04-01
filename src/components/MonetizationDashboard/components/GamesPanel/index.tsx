@@ -30,28 +30,28 @@ function useController(props: Props) {
       flex: 1,
     })) || [];
 
-  const initialState = {
-    apiRef,
-    aggregation: {
-      model: columnKeys.reduce((acc, key) => {
-        if (key === "game") return acc;
-        acc[key] = "sum";
-        return acc;
-      }, {}),
+  const aggregationModel = columnKeys.reduce(
+    (acc, key) => {
+      if (key === "game") return acc;
+      acc[key] = "sum";
+      return acc;
     },
-  } as any;
+    {
+      totals: "sum",
+    }
+  );
 
   return {
     rows: panelData,
     columns,
     loading: props.loading,
-    initialState,
+    aggregationModel,
     apiRef,
   };
 }
 
 function GamesPanel(props: ReturnType<typeof useController>) {
-  const { rows, columns, loading, apiRef, initialState } = props;
+  const { rows, columns, loading, apiRef, aggregationModel } = props;
 
   return (
     <DataGridPremium
@@ -66,8 +66,8 @@ function GamesPanel(props: ReturnType<typeof useController>) {
         toolbar: GridToolbar,
       }}
       getCellClassName={setCellClassName}
+      aggregationModel={aggregationModel}
       aggregationRowsScope="all"
-      initialState={initialState}
       autoHeight
     />
   );

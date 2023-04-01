@@ -26,20 +26,9 @@ function useController(props: Props) {
       };
     }) || [];
 
-  const initialState = {
-    apiRef,
-    aggregation: {
-      model: columnKeys.reduce((acc, key) => {
-        if (key === "game") return acc;
-        acc[key] = "sum";
-        return acc;
-      }, {}),
-    },
-  } as any;
   return {
     ...props,
     apiRef,
-    initialState,
     columns,
   };
 }
@@ -59,15 +48,12 @@ function FullMonetizationHistoryPanel(props: ReturnType<typeof useController>) {
       getRowId={(row) => row.placement}
       slots={{ toolbar: GridToolbar }}
       pagination
-      aggregationModel={{
-        revenue: "sum",
-        views: "sum",
-        conversions: "sum",
-      }}
       initialState={{
         aggregation: {
           model: {
             revenue: "sum",
+            views: "sum",
+            conversions: "sum",
           },
         },
       }}

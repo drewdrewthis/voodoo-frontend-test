@@ -21,8 +21,8 @@
 [X] Data display as a table
 [X] Revenue focused data by country
 [X] Light/Dark mode
-[ ] Row details
-[ ] Highlights for top cells
+[ ] Row details expandable panel
+[X] Highlights for top cells
 [ ] Move GraphQL API call to serverless function layer so as not to expose API key
 [ ] Have default periods, ie 24 hours, 7 Days, 1 month, 1 year
 
@@ -35,7 +35,9 @@
 
 ## TODO
 
+[X] Firefox compatibility check
 [ ] E2E Tests
 [ ] Component Tests
 [ ] More unit tests
 [ ] Clean up some layout issues
+[ ] Get currency
